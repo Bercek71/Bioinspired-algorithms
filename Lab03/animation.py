@@ -5,7 +5,6 @@ from plotly import graph_objs as go
 # funkce pro spuštění animace
 def run_animation(history, function):
     app = Dash(__name__)
-
     def create_initial_plot():
         x= np.linspace(function.lower_bound, function.upper_bound, 100)
         y = np.linspace(function.lower_bound, function.upper_bound, 100)
@@ -14,11 +13,16 @@ def run_animation(history, function):
         surface = go.Surface(z=Z, x=X, y=Y, colorscale='Viridis', opacity=0.7)
         return surface
 
-    app.layout = html.B([
-        dcc.Graph(id='3d-surface'),
-        html.Button('Start Blind search Search', id='search-button'),
-        dcc.Interval(id='interval-component', interval=100, n_intervals=0, disabled=True, max_intervals=len(history))
+    initial_plot = create_initial_plot()
+
+    app.layout = html.Div([
+        html.Div([
+            dcc.Graph(id='3d-surface', className="dash-graph2", style={"height": "100vh !important"}, ),
+            html.Button('Start HillClimb Search', id='search-button'),
+            dcc.Interval(id='interval-component', interval=100, n_intervals=0, disabled=True, max_intervals=len(history))
+        ], style={"height": "100vh !important"})
     ])
+
 
     @app.callback(
         Output('interval-component', 'disabled'),
@@ -38,8 +42,8 @@ def run_animation(history, function):
     def update_graph(n_intervals):
         if n_intervals == 0:
             # Vytvoří počáteční graf
-            initial_surface = create_initial_plot()
-            layout = go.Layout(title="Blind search on " + function.name + " Function",
+            initial_surface = initial_plot
+            layout = go.Layout(title="Hill Climb on " + function.name + " Function",
                                scene=dict(xaxis_title="X", yaxis_title="Y", zaxis_title="Z"))
             return go.Figure(data=[initial_surface], layout=layout)
 
@@ -68,7 +72,7 @@ def run_animation(history, function):
                 last_history_index = len(history) - 1
 
             solution, value = history[last_history_index]
-            surface = create_initial_plot()
+            surface = initial_plot
 
             # Postupně se prostupuje historií a zobrazují se jednotlivé body
             scatter_latest = go.Scatter3d(
@@ -84,7 +88,6 @@ def run_animation(history, function):
 
             layout = go.Layout(title="Blind Search on Ackley Function",
                                scene=dict(xaxis_title="X", yaxis_title="Y", zaxis_title="Z"))
-
             return go.Figure(data=[surface, scatter, scatter_latest], layout=layout)
 
         return go.Figure()

@@ -3,7 +3,7 @@ from BlindSearch import BlindSearch
 from animation import run_animation
 
 def main():
-    function = Function(FunctionType.ACKLEY)
+    function = Function(FunctionType.GRIEWANK)
     blind_search = BlindSearch(function, iterations=50)
     blind_search.search_min()
     blind_search.visualize_solution()
