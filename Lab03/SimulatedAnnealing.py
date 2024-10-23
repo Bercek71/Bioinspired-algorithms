@@ -17,17 +17,18 @@ class SimulatedAnnealing(Solution):
 
         best_point = np.random.uniform(self.lower_bound, self.upper_bound, self.dimension)
         best_value = self.function.evaluate(best_point)
-
-        while self.temperature > 1:
+        # dokud neni teplota mensi nez minimalni
+        while self.temperature > self.minimal_temperature:
             new_point = np.random.normal(best_point, self.cluster_scale, self.dimension)
             new_point = np.clip(new_point, self.lower_bound, self.upper_bound)
             new_value = self.function.evaluate(new_point)
-
+            # pokud je nova hodnota lepsi nez ta nejlepsi, ji ulozim
             if (new_value < best_value and min) or (new_value > best_value and not min):
                 best_point = new_point
                 best_value = new_value
                 self.history.append((best_point, best_value))
             else:
+                # pokud je nova hodnota horsi, tak ji ulozim s pravdepodobnosti
                 if np.random.rand() < np.exp((best_value - new_value) / self.temperature):
                     best_point = new_point
                     best_value = new_value
