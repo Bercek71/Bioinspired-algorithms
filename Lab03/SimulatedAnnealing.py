@@ -2,11 +2,10 @@ from Solution import Solution
 import numpy as np
 
 class SimulatedAnnealing(Solution):
-    def __init__(self, function, temperature = 100, cooling_rate = 0.99, minimal_temperature = 1, points_per_cluster = 100, cluster_scale = 0.1):
+    def __init__(self, function, temperature = 100, cooling_rate = 0.8, minimal_temperature = 1, cluster_scale = 0.1):
         super().__init__(function, 2, function.lower_bound, function.upper_bound)
         self.temperature = temperature
         self.cooling_rate = cooling_rate
-        self.points_per_cluster = points_per_cluster
         self.cluster_scale = cluster_scale
         self.history = []
         self.minimal_temperature = minimal_temperature
@@ -23,7 +22,7 @@ class SimulatedAnnealing(Solution):
             new_point = np.clip(new_point, self.lower_bound, self.upper_bound)
             new_value = self.function.evaluate(new_point)
             # pokud je nova hodnota lepsi nez ta nejlepsi, ji ulozim
-            if (new_value < best_value and min) or (new_value > best_value and not min):
+            if (new_value < best_value and min) or (new_value >= best_value and not min):
                 best_point = new_point
                 best_value = new_value
                 self.history.append((best_point, best_value))
