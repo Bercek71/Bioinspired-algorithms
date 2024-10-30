@@ -4,6 +4,7 @@ class GeneticAlgorithm:
     def __init__(self, population_size, num_generations):
         self.population_size = population_size
         self.num_generations = num_generations
+        self.history = []
 
     def _initialize_population(self, tsp):
         population = []
@@ -66,5 +67,9 @@ class GeneticAlgorithm:
                 if self._calculate_distance(child, tsp) < fitness[j]:
                     new_population[j] = child
             population = new_population
+            popul_eval = self._evaluate_population(population, tsp)
+            if population[np.argmin(popul_eval)] not in self.history:
+                self.history.append(population[np.argmin(popul_eval)])
+
 
         return population[np.argmin(self._evaluate_population(population, tsp))], np.min(self._evaluate_population(population, tsp))

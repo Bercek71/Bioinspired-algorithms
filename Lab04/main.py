@@ -18,7 +18,7 @@ def main():
 
     tsp.show()
 
-    run_animation(best_route, tsp.cities)
+    run_animation(genAlg.history, tsp.cities)
 
 if __name__ == '__main__':
     main()
