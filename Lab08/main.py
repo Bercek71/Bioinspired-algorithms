@@ -6,7 +6,7 @@ import time
 
 def main():
 
-    tsp = TravellingSalesmanProblem(10)
+    tsp = TravellingSalesmanProblem(35)
 
     antColone = AntColony()
 
