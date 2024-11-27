@@ -18,6 +18,7 @@ class AntColony:
             for i in range(num_cities)
         ]
 
+
     def solve(self, tsp, num_ants, num_generations):
         self.history = []
         self.initialize_pheromones_and_distances(tsp)
