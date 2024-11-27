@@ -5,7 +5,7 @@ def main():
 
     function = Function(FunctionType.ACKLEY)
 
-    pso = ParticleSwarm(function, 1000, 10000, 0.1, 0.4, 0.1)
+    pso = ParticleSwarm(function, 100, 100, 0.1, 0.4, 0.1)
 
     result = pso.search_min()
 

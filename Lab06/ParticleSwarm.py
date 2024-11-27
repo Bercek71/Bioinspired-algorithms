@@ -28,7 +28,6 @@ class ParticleSwarm:
 
         def _update_velocity(self, gbest, w, c1, c2):
             inertia = w * self.velocity
-            #position is vector
             cognitive = c1 * random.random() * (self.best_position - self.position)
             social = c2 * random.random() * (gbest.best_position - self.position)
             self.velocity = inertia + cognitive + social
@@ -59,19 +58,10 @@ class ParticleSwarm:
 
     def print_progress(self, gbest, i):
         percentage = (i + 1) / self.max_iter * 100
-        if i % 4 == 0:
-            self.loading_symbol = "/"
-        elif i % 4 == 1:
-            self.loading_symbol = "—"
-        elif i % 4 == 2:
-            self.loading_symbol = "\\"
-        elif i % 4 == 3:
-            self.loading_symbol = "|"
 
         max_symbols = 40
-        # must be max 50 symbols
 
-        print(f"\r|{int(percentage / 2) * '#'}{int((100 - percentage) / 2) * '-'}|\t[{percentage: .2f}%]\t{self.loading_symbol}\tBest evaluation: {gbest.best_evaluation: .4f}",
+        print(f"\r|{int(percentage / 2) * '#'}{int((100 - percentage) / 2) * '-'}|\t[{percentage: .2f}%]\t\tBest evaluation: {gbest.best_evaluation: .4f}",
                 end="", flush=True)
 
     def search_min(self, verbose=True):

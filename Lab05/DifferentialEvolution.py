@@ -17,19 +17,16 @@ class DifferentialEvolution:
         self.history = []
         self.function = function
         population = self._initialize_population(function)
-        population_fitness = np.array([function.function(individual) for individual in population])
+        population_fitness = np.array([function.evaluate(individual) for individual in population])
         generation_count = 0
 
         while generation_count < self.generation_cycles:
-            new_population = deepcopy(population)
             for i in range(self.number_of_individuals):
                 while True:
                     a, b, c = np.random.choice(self.number_of_individuals, 3, replace=False)
                     if a != b and b != c and a != c:
                         break
-            #Mutation vector, take care of boundaries
             mutation_vector = population[a] + self.mutation_constant * (population[b] - population[c])
-            #Trial vector
             trial_vector = np.zeros(self.dimension)
             j_rnd = np.random.randint(self.dimension)
 
@@ -39,7 +36,7 @@ class DifferentialEvolution:
                 else:
                     trial_vector[j] = population[i][j]
 
-            evaluated_trial_vector = function.function(trial_vector)
+            evaluated_trial_vector = function.evaluate(trial_vector)
 
             if evaluated_trial_vector < population_fitness[i]:
                 population[i] = trial_vector
