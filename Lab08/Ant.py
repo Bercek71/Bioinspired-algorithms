@@ -35,7 +35,6 @@ class Ant:
         probabilities = []
         for city in range(len(self.pheromones)):
             if city not in self.path:
-                visibility = self.visibilities[current_city][city]
                 pheromone_level = self.pheromones[current_city][city]
                 probabilities.append((city, pheromone_level))
 
