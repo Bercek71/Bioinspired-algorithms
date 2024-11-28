@@ -65,24 +65,21 @@ class Ant:
         self.path_cost = 0
         num_cities = len(self.tsp.cities)
 
-        # Start from a random city
         current_city = random.choice(range(num_cities))
         self.path.append(current_city)
 
-        # Visit all cities
         while len(self.path) < num_cities:
             next_city = self.choose_next_city(current_city)
             self.path.append(next_city)
             self.path_cost += self.calculate_distance(current_city, next_city)
             current_city = next_city
 
-        # Return to the starting city
         self.path.append(self.path[0])
         self.path_cost += self.calculate_distance(self.path[-2], self.path[0])
 
     def choose_next_city(self, current_city):
-        alpha = 1  # Parameter to control influence of pheromone
-        beta = 2   # Parameter to control influence of distance
+        alpha = 1
+        beta = 2
         probabilities = []
 
         for city in range(len(self.tsp.cities)):
@@ -94,13 +91,10 @@ class Ant:
         total = sum(prob for _, prob in probabilities)
 
         if total == 0:
-            # Handle the case where all probabilities are zero
             return random.choice([city for city in range(len(self.tsp.cities)) if city not in self.path])
 
-        # Normalize probabilities
         probabilities = [(city, prob / total) for city, prob in probabilities]
 
-        # Choose the next city based on probabilities
         next_city = random.choices(
             population=[city for city, _ in probabilities],
             weights=[prob for _, prob in probabilities],

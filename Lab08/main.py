@@ -1,5 +1,4 @@
 from AntColony import AntColony
-from GeneticAlgorithm import GeneticAlgorithm
 from TravellingSalesmanProblem import TravellingSalesmanProblem
 from animation import run_animation
 import time
