@@ -15,10 +15,9 @@ class FireflyAlgorithm:
         )
         self.best_position = None
         self.best_fitness = float('inf')
-        self.history = []  # Historie iterací pro animaci
+        self.history = []
 
     def move_fireflies(self, i, j):
-        # Vzdálenost mezi světluškami
         r = np.linalg.norm(self.population[i] - self.population[j])
         # Přitažlivost
         beta = self.beta_0 * np.exp(-self.gamma * r**2)
@@ -41,12 +40,10 @@ class FireflyAlgorithm:
             if fitness_values[best_index] < self.best_fitness:
                 self.best_fitness = fitness_values[best_index]
                 self.best_position = self.population[best_index].copy()
-            self.history.append((self.population[best_index].copy(), self.best_fitness))
+                self.history.append((self.population[best_index].copy(), self.best_fitness))
             for i in range(self.population_size):
                 for j in range(self.population_size):
+                    if i == j: continue
                     if fitness_values[j] < fitness_values[i]:
                         self.move_fireflies(i, j)
-        return self.best_position, self.best_fitness
-
-    def get_best_solution(self):
         return self.best_position, self.best_fitness
